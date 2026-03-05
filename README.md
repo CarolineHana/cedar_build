@@ -1,17 +1,19 @@
 # Cedar Voxel
 
-A browser-based voxel drawing tool — place and remove colored cubes on a 3D grid. Built with **TypeScript**, **Next.js**, and **Three.js** (via React Three Fiber).
+A browser-based voxel editor for building in 3D. Place colored blocks on a grid, load premade buildings, or draw a silhouette and generate blocks—all with different materials (wood, steel, concrete, brick). Built with **TypeScript**, **Next.js**, and **Three.js** (React Three Fiber).
 
 ## Features
 
-- **Place & remove blocks** — Click to add a voxel, switch to Remove and click to delete
-- **3D navigation** — Orbit (drag), zoom (scroll), pan (right-drag or two-finger drag)
-- **Color selection** — Palette of 28 colors plus a custom color picker
-- **Live preview** — Semi-transparent ghost of the next block when adding, red outline when removing
+- **Place blocks** — Click the grid or existing blocks to add voxels in your selected color. A ghost preview shows where the next block will go.
+- **3D navigation** — Drag to orbit, scroll to zoom, right-drag or two-finger drag to pan.
+- **Color** — Choose from the palette or use the custom color picker; new blocks and free-draw output use the current color.
+- **Materials** — Switch the whole scene’s look: **Wood**, **Steel**, **Concrete**, or **Brick**. Each changes color tones and surface finish (roughness/metalness).
+- **Catalogue** — Pick from 9 architectural styles: Classical, Gothic, Art Deco, High-tech, Colonial, Modernism, Brutalism, Art Nouveau, Postmodernism. Buildings are high-resolution voxel shapes that replace the current grid.
+- **Surprise me** — Load a random building from the catalogue.
+- **Free draw** — Open a small canvas, draw a front-facing silhouette (ground at bottom), then **Generate** to turn it into blocks on the grid (extruded in depth, in your selected color). Undo removes the whole drawing in one step.
+- **Edit** — **Undo** / **Redo** (per block or per free-draw batch) and **Clear** to remove everything.
 
 ## Run locally
-
-Requires **Node.js 18.17+** (or 20+ recommended).
 
 ```bash
 npm install
@@ -20,25 +22,16 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-## Deploy on Vercel
-
-1. Push this repo to GitHub (or connect your Git provider in Vercel).
-2. In [Vercel](https://vercel.com), **Add New Project** and import the repo.
-3. Leave build settings as default (Next.js is auto-detected).
-4. Deploy. The app is static-friendly; the canvas runs entirely in the client.
-
-No environment variables or server config required for the free tier.
-
 ## Stack
 
 - **Next.js 14** (App Router)
 - **TypeScript**
 - **Tailwind CSS**
-- **Three.js** + **@react-three/fiber** + **@react-three/drei** for 3D scene, orbit controls, and grid
+- **Three.js** + **@react-three/fiber** + **@react-three/drei** — 3D scene, orbit controls, grid, and voxel mesh
 
 ## Project structure
 
-- `src/app/` — Next.js app (layout, page, globals)
-- `src/components/` — `VoxelCanvas`, `VoxelGridMesh`, `VoxelPointer`, `ColorPalette`
-- `src/types/voxel.ts` — Voxel grid types and key helpers
-- `src/lib/constants.ts` — Palette and grid constants
+- `src/app/` — Layout and main page (header controls, modals, canvas).
+- `src/components/` — **VoxelCanvas** (3D scene, placement), **VoxelGridMesh** (merged voxel geometry), **VoxelPointer** (preview ghost), **ColorPalette**, **FreeDrawModal**.
+- `src/lib/` — **catalogue.ts** (building definitions + `buildingToVoxelGrid`), **materials.ts** (material presets and palettes), **constants.ts** (grid size, palette, voxel dimensions).
+- `src/types/voxel.ts` — Voxel grid types and key helpers.
